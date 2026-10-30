@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#08070a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>WWE SuperCard — Ring of Legends</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230a080b'/%3E%3Cpath d='M14 22h36v7H38l8 19h-9l-5-12-5 12h-9l8-19H14z' fill='%23f5c451'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app" class="app">
+    <canvas id="fx" aria-hidden="true"></canvas>
+
+    <section id="homeScreen" class="screen home-screen is-active" aria-label="Main menu">
+      <div class="home-arena" aria-hidden="true">
+        <div class="arena-haze"></div>
+        <div class="arena-beam beam-a"></div>
+        <div class="arena-beam beam-b"></div>
+        <div class="arena-beam beam-c"></div>
+        <div class="crowd-wall"></div>
+        <div class="ring-scene">
+          <div class="ring-post post-left"></div>
+          <div class="ring-post post-right"></div>
+          <div class="ring-rope rope-back-1"></div>
+          <div class="ring-rope rope-back-2"></div>
+          <div class="ring-rope rope-back-3"></div>
+          <div class="ring-canvas"><span>SUPERCARD</span></div>
+          <div class="ring-rope rope-front-1"></div>
+          <div class="ring-rope rope-front-2"></div>
+          <div class="ring-rope rope-front-3"></div>
+        </div>
+        <div class="home-vignette"></div>
+      </div>
+
+      <header class="topbar">
+        <div class="profile-chip">
+          <div class="profile-avatar" aria-hidden="true">
+            <svg viewBox="0 0 32 32"><path d="M6 28c1-6 5-9 10-9s9 3 10 9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="11" r="5.2" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
+          </div>
+          <div class="profile-copy">
+            <span>PLAYER LEVEL</span>
+            <strong>12 <i>·</i> CHALLENGER</strong>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button id="tiltBtn" class="icon-btn tilt-btn" type="button" aria-pressed="false" title="Enable tilt controls">
+            <span class="tilt-glyph" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><rect x="6.5" y="3" width="11" height="18" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M9.5 17.5h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M12 7v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M10 8.8 12 7l2 1.8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="tilt-label">TILT</span>
+            <span class="tilt-state" id="tiltState">OFF</span>
+          </button>
+          <div class="currency-chip" title="Coins">
+            <span class="coin" aria-hidden="true"></span>
+            <strong id="coinCount">12,450</strong>
+          </div>
+          <button id="soundBtn" class="icon-btn" type="button" aria-label="Toggle sound" title="Toggle sound">
+            <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path d="M16 8.5c1.3 1.1 2 2.3 2 3.5s-.7 2.4-2 3.5M18.5 6c2.1 1.7 3.2 3.6 3.2 6s-1.1 4.3-3.2 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path d="m17 9 5 6m0-6-5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="home-main">
+        <div class="brand-column">
+          <div class="brand-kicker"><span></span> SEASON 06 · LIVE EVENT <span></span></div>
+          <h1 class="brand-logo" aria-label="WWE SuperCard">
+            <span class="brand-wwe">WWE</span>
+            <span class="brand-super">SUPER</span><span class="brand-card">CARD</span>
+          </h1>
+          <div class="brand-sub"><b>RING</b> OF LEGENDS</div>
+          <p class="brand-copy">Collect immortal superstars. Build the ultimate deck. <em>Own the ring.</em></p>
+
+          <div class="home-actions">
+            <button id="playBtn" class="btn btn-primary" type="button" aria-label="PLAY">
+              <span class="btn-shine"></span>
+              <span class="btn-play-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5L8 5.5Z" fill="currentColor"/></svg></span>
+              <span class="btn-copy"><strong>PLAY</strong><small>QUICK MATCH</small></span>
+            </button>
+            <button id="deckBtn" class="btn btn-secondary" type="button">
+              <span class="deck-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="11" height="16" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M9 2h10a1.5 1.5 0 0 1 1.5 1.5v15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M8 9h4M8 13h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+              <span class="btn-copy"><strong>MY DECK</strong><small>5 / 5 READY</small></span>
+            </button>
+          </div>
+
+          <div class="season-track">
+            <div class="season-meta"><span>SEASON PROGRESS</span><strong>64%</strong></div>
+            <div class="season-bar"><i></i></div>
+            <div class="season-reward"><span class="mini-card"></span><span>NEXT REWARD<strong>LEGENDARY PACK</strong></span></div>
+          </div>
+        </div>
+
+        <div class="feature-column">
+          <div class="feature-halo" aria-hidden="true"></div>
+          <div class="feature-card" id="featureCard"></div>
+          <div class="feature-caption">
+            <span class="feature-flag">FEATURED SUPERSTAR</span>
+            <strong>THE TRIBAL CHIEF</strong>
+            <span>IMMORTAL · +8% CHARISMA</span>
+          </div>
+          <div class="floating-stat stat-one"><span>WIN STREAK</span><strong>07</strong></div>
+          <div class="floating-stat stat-two"><span>DECK POWER</span><strong>4,812</strong></div>
+        </div>
+      </main>
+
+      <footer class="home-footer">
+        <div class="event-ticker">
+          <span class="live-dot"></span>
+          <strong>LIVE NOW</strong>
+          <span class="ticker-copy">CLASH OF CHAMPIONS <i>·</i> 2X REWARDS <i>·</i> ENDS IN 11H 42M</span>
+        </div>
+        <div class="footer-note">TAP PLAY TO ENTER THE RING</div>
+      </footer>
+    </section>
+
+    <section id="battleScreen" class="screen battle-screen" aria-label="Card battle">
+      <div class="battle-arena" aria-hidden="true">
+        <div class="battle-glow"></div>
+        <div class="battle-beam beam-left"></div>
+        <div class="battle-beam beam-right"></div>
+        <div class="battle-crowd"></div>
+        <div class="battle-floor-grid"></div>
+        <div class="battle-vignette"></div>
+      </div>
+
+      <header class="battle-top">
+        <div class="fighter opponent-fighter">
+          <div class="fighter-avatar" id="oppAvatar"></div>
+          <div class="fighter-copy">
+            <span class="fighter-tier" id="oppTier">IMMORTAL</span>
+            <strong id="oppName">THE PHANTOM</strong>
+            <span class="fighter-sub" id="oppSub">RING OF LEGENDS</span>
+          </div>
+          <div class="pips" id="oppPips" aria-label="Opponent score"></div>
+        </div>
+
+        <div class="round-hud">
+          <div class="round-line"><span>ROUND</span><b id="roundNo">1</b><span>/ 5</span></div>
+          <div class="spotlight-chip" id="spotlightChip">
+            <span class="spot-icon" id="spotIcon"></span>
+            <span><small>SPOTLIGHT</small><strong id="spotName">POWER</strong></span>
+          </div>
+          <div class="round-status" id="roundStatus">CHOOSE YOUR CARD</div>
+        </div>
+
+        <div class="fighter player-fighter">
+          <div class="pips player-pips" id="playerPips" aria-label="Your score"></div>
+          <div class="fighter-copy">
+            <span class="fighter-tier">CHALLENGER</span>
+            <strong>YOU</strong>
+            <span class="fighter-sub" id="playerSub">DECK POWER 4,812</span>
+          </div>
+          <div class="fighter-avatar player-avatar" id="playerAvatar"></div>
+        </div>
+      </header>
+
+      <main class="battle-stage">
+        <div class="opponent-hand" id="opponentHand" aria-label="Opponent hand"></div>
+
+        <div class="clash-arena">
+          <div class="ring-mat" aria-hidden="true">
+            <div class="mat-ring"></div>
+            <span class="mat-logo">SUPERCARD</span>
+            <div class="mat-sparks"></div>
+          </div>
+
+          <div class="slot player-slot" id="playerSlot">
+            <div class="slot-ghost"><span>YOUR CARD</span></div>
+          </div>
+          <div class="versus-core" id="versusCore">
+            <span class="vs-glow"></span>
+            <strong>VS</strong>
+            <small id="versusSub">TAP A CARD</small>
+          </div>
+          <div class="slot opponent-slot" id="opponentSlot">
+            <div class="slot-ghost"><span>OPPONENT</span></div>
+          </div>
+
+          <div class="clash-result" id="clashResult" aria-live="polite">
+            <div class="result-kicker" id="resultKicker">ROUND 1</div>
+            <div class="result-score" id="resultScore">—</div>
+            <div class="result-label" id="resultLabel"></div>
+          </div>
+
+          <div class="spotlight-orb" id="spotlightOrb" aria-hidden="true">
+            <div class="orb-stat" id="orbStat"></div>
+            <span></span><span></span><span></span>
+          </div>
+          <div class="stat-ribbon" id="statRibbon" aria-label="Spotlight statistics"></div>
+          <div class="turn-banner" id="turnBanner"><span>YOUR TURN</span><strong>CHOOSE YOUR CARD</strong><small>MATCH THE SPOTLIGHT STAT</small></div>
+        </div>
+
+        <div class="hand-dock">
+          <div class="hand-topline">
+            <div class="hand-hint"><span class="swipe-glyph">↑</span><span>TAP OR SWIPE UP TO PLAY</span></div>
+            <div class="momentum" id="momentum"><span>MOMENTUM</span><i><b></b></i></div>
+            <div class="round-tally" id="roundTally">0 — 0</div>
+          </div>
+          <div class="player-hand" id="playerHand" aria-label="Your hand"></div>
+        </div>
+
+        <div class="battle-tools">
+          <button id="quitBtn" class="ghost-btn" type="button" aria-label="Quit match" title="Quit match">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6 9 12l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button id="battleSoundBtn" class="ghost-btn" type="button" aria-label="Toggle sound" title="Toggle sound">
+            <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path d="M16 8.5c1.3 1.1 2 2.3 2 3.5s-.7 2.4-2 3.5M18.5 6c2.1 1.7 3.2 3.6 3.2 6s-1.1 4.3-3.2 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path d="m17 9 5 6m0-6-5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </main>
+    </section>
+
+    <div id="modal" class="modal" aria-hidden="true">
+      <div class="modal-backdrop" data-close-modal></div>
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button class="modal-close" data-close-modal type="button" aria-label="Close">×</button>
+        <div id="modalContent"></div>
+      </div>
+    </div>
+
+    <div id="resultOverlay" class="result-overlay" aria-hidden="true">
+      <div class="result-panel">
+        <div class="result-rays" aria-hidden="true"></div>
+        <div class="result-kicker" id="matchKicker">MATCH COMPLETE</div>
+        <h2 id="matchTitle">VICTORY</h2>
+        <div class="match-score" id="matchScore">3 — 1</div>
+        <div class="match-mvp" id="matchMvp"></div>
+        <div class="match-rewards">
+          <div><span class="coin"></span><strong>+250</strong><small>COINS</small></div>
+          <div><span class="star-icon">★</span><strong>+1</strong><small>STAR</small></div>
+        </div>
+        <div class="match-actions">
+          <button id="rematchBtn" class="btn btn-primary" type="button" aria-label="REMATCH"><span class="btn-copy"><strong>REMATCH</strong><small>RUN IT BACK</small></span></button>
+          <button id="homeBtn" class="btn btn-secondary" type="button"><span class="btn-copy"><strong>HOME</strong><small>MAIN MENU</small></span></button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
